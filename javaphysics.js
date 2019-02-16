@@ -1,0 +1,4 @@
+function distance(sinkstruct, boatstruct)
+	{
+		
+	}
