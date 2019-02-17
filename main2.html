@@ -408,9 +408,7 @@ function main () {
         alert("It seems as if you hate your uncommon crew. Sicko Mode has been initiated. Your crew is at risk of commonness. ")
         canvas.onmousemove = function (e, x, y) {
         var rect = canvas.getBoundingClientRect();
-
         sick = 1;
-
         if (mouse[0]>0)
         mouse = [Math.cos(e.x - rect.left), canvas.height - e.y + rect.top,mouse[0],mouse[1]];
        
@@ -455,7 +453,7 @@ window.onload = main;
 </script>
 
 <script>
-var nummines =0;
+var nummines =100;
 var mines; // An array of mines to iterate through to check the distance between each bomb
 var sinkradius = 5;
 var endradius = 7;
@@ -470,18 +468,12 @@ var x = 500;
 var y = 300;
 var dx = 0;
 var dy = 0;
-
 var sick = 0;
-
 var tempX;
 var tempY;
-
 var tempFX;
 var tempFY;
-
 var mouse = 0;
-
-
 function makeBoat()
 {
     var boat = {
@@ -506,64 +498,47 @@ function onMouseDown(event){
     console.log(event.screenX);
     console.log(event.screenY);
     canvas.onmousedown(event, event.screenX, event.screenY);
-
     ++ mouse;
 
-    if (sick ==0 ){
+    if (sick ==1 ){
+        dx = 1000;
+        return;
+    }
+
     var sign_x = (x > event.screenX) ? -1 : 1; 
     var sign_y = (y > event.screenY) ? 1 : -1;
     var forcex = (10/((x - event.screenX)*(x - event.screenX))) * sign_x;
     var forcey = (10/((y - event.screenY)*(y - event.screenY))) * sign_y;
-
-
     tempX = event.screenX;
     tempY = event.screenY;
-
     var ax = forcex;
     var ay = forcey;
-
     dx = (-1 * (event.screenX - x)/Math.abs((event.screenX - x)));
     dy = (-1 * (event.screenY - y)/Math.abs((event.screenY - y)));
-
           dx += ax;
           dy += ay;
-
   
    
-
     tempFX = dx;
     tempFY = dy;
 
-}
-else{
-
-    dx =100;
-    return;
-}
     sincCoors = sinkcoords(event.screenX, event.screenY);
 }
-
 function onMouseMove(event){
     canvas.onmousemove(event, event.screenX, event.screenY);
     console.log(time);
     if (mouse > 0){
-
     dx = tempFX;
     dy = tempFY;
-
     ++time;
 }
-
 }
-
 function onMouseUp(event){
     canvas.onmouseout(event, event.screenX, event.screenY);
     time = 0;
     mouse = 0;
     sick = 0;
 }
-
-
 function makeRandomArray (){
  var array = [];
  for (var i=0;i<nummines;i++){
@@ -575,7 +550,6 @@ function makeRandomArray (){
  }
  return array;
 }
-
 function getRandom(a,b){
     rand=Math.random();
     return a + Math.floor((b-a)*rand);
@@ -755,3 +729,4 @@ setInterval(draws, 10);
 
 </body>
 <html>
+    
