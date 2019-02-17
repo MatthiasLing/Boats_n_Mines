@@ -1,0 +1,185 @@
+
+var running = 1;
+var boatradius;
+var nummines;
+var mines; // An array of mines to iterate through to check the distance between each bomb
+var sinkradius = 5;
+var endradius = 7;
+
+
+
+function makeBoat(r)
+{
+	var boat = {
+		radius: r,
+		velocity: [0,0],
+		acceleration :[0,0],
+		coors: [0,0]
+	}
+
+	return boat;
+}
+
+var Boat = makeBoat(50);
+//var Boat = {velocity :[0,0], acceleration :[0,0], coors: [0,0]};
+
+function getDistance( x1, y1, x2, y2) {
+	var xs = x2 - x1;
+	var	ys = y2 - y1;
+		xs *= xs;
+		ys *= ys;
+	var	result = Math.sqrt(xs+ys);
+	return result;
+};
+
+function onMouseDown(event){
+
+	console.log(event.screenX);
+	console.log(event.screenY);
+
+	sinkcoords(event.screenX, event.screenY);
+
+}
+
+function makeRandomArray (){
+
+	var array = [];
+
+	for (var i=0;i<150;i++){
+
+			var point = {
+				x: getRandom(1,window.innerWidth),
+				y: getRandom(1,window.innerHeight)
+			}
+
+			array.push(point);
+	}
+	return array;
+}
+
+
+function getRandom(a,b){
+
+	rand=Math.random();
+
+	return a + Math.floor((b-a)*rand);
+}
+
+var points = makeRandomArray();
+console.log(points);
+
+function addElement (x,y) { 
+  // create a new div element 
+  var newDiv = document.createElement("div"); 
+  newDiv.style.position="absolute"; 
+  newDiv.style.left = x + "px";
+  newDiv.style.top = y + "px";
+  // and give it some content 
+  var newContent = document.createTextNode("*"); 
+  // add the text node to the newly created div
+  newDiv.appendChild(newContent);  
+
+  // add the newly created element and its content into the DOM 
+  var currentDiv = document.getElementById("div1"); 
+  document.body.insertBefore(newDiv, currentDiv); 
+}
+
+
+for (let i =0; i<points.length; i++)
+{
+	point = points[i];
+	addElement(point.x, point.y);
+
+}
+
+function sinkcoords(x,y){
+	var sinkcoords = new point (x, y);
+	return sinkcoords;
+}
+
+function endcoord(x,y) {
+	var endcoords = new point (x,y);
+	return endcoords;
+}
+
+var endCoors = [11,13];
+var sinkCoors = [10, 10];
+
+
+//rahims gonna insert physics shit here
+	const k = 3;
+	const delt = .1;
+
+var xunit;
+var yunit;
+
+
+	xdistance = (sinkCoors[0] - Boat.coors[0]);
+	ydistance = (sinkCoors[1] - Boat.coors[1]);
+	tdistance = Math.sqrt((Math.pow(xdistance,2))+(Math.pow(ydistance,2)));
+	
+	xunit = xdistance / tdistance;
+	yunit = ydistance / tdistance;
+
+
+//function tickRunning(){
+if (running == 1) {	
+	for(var tick = 0; tick < 120; tick++)
+		{
+			//document.write(accx + ",  " + accy);
+			//document.write(velx + ",  " + vely)
+			//+ "  " + posy
+
+			Boat.acceleration[0] = xunit * k * tick;
+			Boat.acceleration[1] = yunit * k * tick;
+
+			Boat.velocity[0] = Boat.velocity[0] + Boat.acceleration[0]*delt;
+			Boat.velocity[1] = Boat.velocity[1] + Boat.acceleration[1]*delt;
+
+			Boat.coors[0] = Boat.coors[0] + Boat.velocity[0]*delt;
+			Boat.coors[1] = Boat.coors[1] + Boat.velocity[1]*delt;
+			for (var int = 0; int < nummines; int++) {
+			if ((Boat.coors[0] == points[int].x) && (Boat.coors[1] == points[int].y)) {
+			running == 0; 
+			alert("You blew up, try again!")
+			}
+		}
+			if (getDistance(Boat.coors[0], Boat.coors[1], sinkCoors[0], sinkCoors[1]) <= sinkradius) {
+				running ==0;
+				alert("You sunk, try again!");
+			} else if (getDistance(Boat.coors[0], Boat.coors[1], endCoors[0], endCoors[1]) <= endradius) {
+				running = 0;
+				alert("You win!");
+			}
+		}
+	}
+
+			
+//}
+
+//Get the dimensions of the window
+
+var winHeight = window.innerHeight;
+var winWidth = window.innerWidth;
+
+function hitWall(){
+	if ((Boat.coors[0] + (WIDTH/2)) > winWidth){
+		Boat.velocity[0] = -Boat.velocity[0];
+		
+	} //change x directions
+
+	if ((Boat.coors[0] - (WIDTH/2)) < winWidth){
+		Boat.velocity[0] = -Boat.velocity[0];
+		
+	} //change x directions
+
+	if ((Boat.coors[1] + (HEIGHT/2)) > winHeight){
+		Boat.velocity[1] = -Boat.velocity[1];
+		
+		} //change y directions
+
+	if ((Boat.coors[1] - (HEIGHT/2)) < winHeight){
+		Boat.velocity[1] = -Boat.velocity[1];
+		
+	} //change y directions
+} //hitWall)()
