@@ -3,57 +3,99 @@
 <title> SHITSHTICKS </title>
 
  <script>
-		
-		const k = 3;
-		const delt = .1;
 
 
-		 var xofboat=2;
-		 var xofsink=5;
-		 var yofboat=2;
-		 var yofsink=6;
-		 var xdistance;
-		 var ydistance;
-		 var tdistance;
 
-		 xdistance = (xofsink - xofboat);
-		 ydistance = (yofsink- yofboat);
-		 tdistance = Math.sqrt((Math.pow(xdistance,2))+(Math.pow(ydistance,2)));
-		//document.write(tdistance);
+const HEIGHT = 5;
+const WIDTH = 2;
 
-		var xunit = xdistance / tdistance;
-		var yunit = ydistance / tdistance;
+var Boat = {velocity :[0,0], acceleration :[0,0], coors: [0,0]};
 
-		var accx = 0;
-		var accy = 0;
 
-		var velx = -5;
-		var vely = -25;
+//function sinkPlacement(){
+//	var sinkX = clientX;
+//	var sinkY = clientY;
+//
+//	if (onmousedown)
+//	{
+//		sinkCoors = [sinkX, sinkY];
+//	}
+//} // function sinkPlacement()
 
-		var posx = 0;
-		var posy = 0;
 
-		for(var tick = 0; tick != 100; tick++)
+var sinkCoors = [5, 5];
+
+//rahims gonna insert physics shit here
+	const k = 3;
+	const delt = .1;
+
+var xunit;
+var yunit;
+
+
+	xdistance = (sinkCoors[0] - Boat.coors[0]);
+	ydistance = (sinkCoors[1] - Boat.coors[1]);
+	tdistance = Math.sqrt((Math.pow(xdistance,2))+(Math.pow(ydistance,2)));
+	
+	xunit = xdistance / tdistance;
+	yunit = ydistance / tdistance;
+	
+
+
+//function tickRunning(){
+	for(var tick = 0; tick < 10; tick++)
 		{
 			//document.write(accx + ",  " + accy);
 			//document.write(velx + ",  " + vely);
-			document.write(posx  + "<br>" );
+			document.write(Boat.coors[1]  + "<br>" );
 			//+ "  " + posy
 
-			var accx = xunit * k * tick;
-			var accy = yunit * k * tick;
+			Boat.acceleration[0] = xunit * k * tick;
+			Boat.acceleration[1] = yunit * k * tick;
 
-			var velx = velx + accx*delt;
-			var vely = vely + accy*delt;
+			Boat.velocity[0] = Boat.velocity[0] + Boat.acceleration[0]*delt;
+			Boat.velocity[1] = Boat.velocity[1] + Boat.acceleration[1]*delt;
 
-			var posx = posx + velx*delt;
-			var posy = posy + vely*delt;
+			Boat.coors[0] = Boat.coors[0] + Boat.velocity[0]*delt;
+			Boat.coors[1] = Boat.coors[1] + Boat.velocity[1]*delt;
 
 		
 		}
+//}
+
+//Get the dimensions of the window
+
+var winHeight = window.innerHeight;
+var winWidth = window.innerWidth;
+
+function hitWall(){
+	if ((Boat.coors[0] + (WIDTH/2)) > winWidth){
+		Boat.velocity[0] = -Boat.velocity[0];
+		
+	} //change x directions
+
+	if ((Boat.coors[0] - (WIDTH/2)) < winWidth){
+		Boat.velocity[0] = -Boat.velocity[0];
+		
+	} //change x directions
+
+	if ((Boat.coors[1] + (HEIGHT/2)) > winHeight){
+		Boat.velocity[1] = -Boat.velocity[1];
+		
+		} //change y directions
+
+	if ((Boat.coors[1] - (HEIGHT/2)) < winHeight){
+		Boat.velocity[1] = -Boat.velocity[1];
+		
+	} //change y directions
+} //hitWall)()
+
 
 
  </script>
 
+<header>
+	YOU WANKER BANKER
+</header>
 
 </html>
