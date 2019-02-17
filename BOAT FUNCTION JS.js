@@ -1,28 +1,88 @@
-<!DOCTYPE html>
-<html>
-<title> SHITSHTICKS </title>
-
- <script>
-
 
 
 const HEIGHT = 5;
 const WIDTH = 2;
 
-var Boat = {velocity :[0,0], acceleration :[0,0], coors: [0,0]};
+
+function makeBoat(r)
+{
+	var boat = {
+		radius: r,
+		velocity: [0,0],
+		acceleration :[0,0],
+		coors: [0,0]
+	}
+
+	return boat;
+}
+
+var Boat = makeBoat(50);
+//var Boat = {velocity :[0,0], acceleration :[0,0], coors: [0,0]};
+
+function onMouseDown(event){
+
+	console.log(event.screenX);
+	console.log(event.screenY);
+
+	sinkcoords(event.screenX, event.screenY);
+
+}
+
+function makeRandomArray (){
+
+	var array = [];
+
+	for (var i=0;i<20;i++){
+
+			var point = {
+				x: getRandom(1,window.innerWidth),
+				y: getRandom(1,window.innerHeight)
+			}
+
+			array.push(point);
+	}
+	return array;
+}
 
 
-//function sinkPlacement(){
-//	var sinkX = clientX;
-//	var sinkY = clientY;
-//
-//	if (onmousedown)
-//	{
-//		sinkCoors = [sinkX, sinkY];
-//	}
-//} // function sinkPlacement()
+function getRandom(a,b){
+
+	rand=Math.random();
+
+	return a + Math.floor((b-a)*rand);
+}
+
+var points = makeRandomArray();
+console.log(points);
+
+function addElement (x,y) { 
+  // create a new div element 
+  var newDiv = document.createElement("div"); 
+  newDiv.style.position="absolute"; 
+  newDiv.style.left = x + "px";
+  newDiv.style.top = y + "px";
+  // and give it some content 
+  var newContent = document.createTextNode("*"); 
+  // add the text node to the newly created div
+  newDiv.appendChild(newContent);  
+
+  // add the newly created element and its content into the DOM 
+  var currentDiv = document.getElementById("div1"); 
+  document.body.insertBefore(newDiv, currentDiv); 
+}
 
 
+for (let i =0; i<points.length; i++)
+{
+	point = points[i];
+	addElement(point.x, point.y);
+
+}
+
+function sinkcoords(x,y){
+	var sinkcoords = new point (x, y);
+	return sinkcoords;
+}
 var sinkCoors = [5, 5];
 
 //rahims gonna insert physics shit here
@@ -89,13 +149,3 @@ function hitWall(){
 		
 	} //change y directions
 } //hitWall)()
-
-
-
- </script>
-
-<header>
-	YOU WANKER BANKER
-</header>
-
-</html>
