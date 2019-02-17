@@ -489,6 +489,15 @@ var y = 300;
 var dx = 0;
 var dy = 0;
 
+var tempX;
+var tempY;
+
+var tempFX;
+var tempFY;
+
+var mouse = 0;
+
+
 function makeBoat()
 {
     var boat = {
@@ -514,34 +523,52 @@ function onMouseDown(event){
     console.log(event.screenY);
     canvas.onmousedown(event, event.screenX, event.screenY);
 
-    var forcex = Math.abs(10/((x - event.screenX)*(x - event.screenX)));
-    var forcey = Math.abs(10/((y - event.screenY)*(y - event.screenY)));
+
+    ++ mouse;
+
+    var forcex = (10/((x - event.screenX)*(x - event.screenX)))*(event.screenX - x)/Math.abs((event.screenX - x));
+    var forcey = 10/((y - event.screenY)*(y - event.screenY));
+
+
+    tempX = event.screenX;
+    tempY = event.screenY;
 
     var ax = forcex;
     var ay = forcey;
 
-    console.log(x);
-    console.log(y);
-
     dx = (-1 * (event.screenX - x)/Math.abs((event.screenX - x)));
     dy = (-1 * (event.screenY - y)/Math.abs((event.screenY - y)));
 
-    dx += ax;
-    dy += ay;
+
+          dx += ax;
+          dy += ay;
+
+  
+   
+
+    tempFX = dx;
+    tempFY = dy;
 
     sincCoors = sinkcoords(event.screenX, event.screenY);
-    ++time;
 }
 
 function onMouseMove(event){
     canvas.onmousemove(event, event.screenX, event.screenY);
     console.log(time);
+    if (mouse > 0){
+
+    dx = tempFX;
+    dy = tempFY;
+
     ++time;
+}
+
 }
 
 function onMouseUp(event){
     canvas.onmouseout(event, event.screenX, event.screenY);
     time = 0;
+    mouse = 0;
 }
 
 
