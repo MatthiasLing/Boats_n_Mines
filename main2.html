@@ -2,28 +2,6 @@
 <html>
 <body>
 
-
-
-
-<style>
-/*#container {
-  width: 1000px;
-  height: 600px;
-  position: absolute;
-  background: transparent;
-}*/
-/*#animate {
-  
-  height: 25px;
-  width: 25px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-  background: black;
-}*/
-</style>
-
 <div id ="container">
   <div id ="animate"></div>
 </div>
@@ -430,8 +408,12 @@ function main () {
         alert("It seems as if you hate your uncommon crew. Sicko Mode has been initiated. Your crew is at risk of commonness. ")
         canvas.onmousemove = function (e, x, y) {
         var rect = canvas.getBoundingClientRect();
+
+        sick = 1;
+
         if (mouse[0]>0)
         mouse = [Math.cos(e.x - rect.left), canvas.height - e.y + rect.top,mouse[0],mouse[1]];
+       
         // Then, if the  y co-ordiante of mouse is within range of the y -cordinate of the ship, then another alert that you have lost your crew to 
         // commoness. 
     }
@@ -473,7 +455,7 @@ window.onload = main;
 </script>
 
 <script>
-var nummines =1;
+var nummines =0;
 var mines; // An array of mines to iterate through to check the distance between each bomb
 var sinkradius = 5;
 var endradius = 7;
@@ -488,6 +470,8 @@ var x = 500;
 var y = 300;
 var dx = 0;
 var dy = 0;
+
+var sick = 0;
 
 var tempX;
 var tempY;
@@ -523,9 +507,10 @@ function onMouseDown(event){
     console.log(event.screenY);
     canvas.onmousedown(event, event.screenX, event.screenY);
 
-    console.log("CLICKED IT!!!");
     ++ mouse;
-    var sign_x = (x > event.screenX) ? 1 : -1; 
+
+    if (sick ==0 ){
+    var sign_x = (x > event.screenX) ? -1 : 1; 
     var sign_y = (y > event.screenY) ? 1 : -1;
     var forcex = (10/((x - event.screenX)*(x - event.screenX))) * sign_x;
     var forcey = (10/((y - event.screenY)*(y - event.screenY))) * sign_y;
@@ -540,18 +525,22 @@ function onMouseDown(event){
     dx = (-1 * (event.screenX - x)/Math.abs((event.screenX - x)));
     dy = (-1 * (event.screenY - y)/Math.abs((event.screenY - y)));
 
-
           dx += ax;
           dy += ay;
 
   
    
 
-    tempFX = forcex;
-    tempFY = forcey;
+    tempFX = dx;
+    tempFY = dy;
 
+}
+else{
 
-    sincCoors = sinkcoords(tempX, tempY);
+    dx =100;
+    return;
+}
+    sincCoors = sinkcoords(event.screenX, event.screenY);
 }
 
 function onMouseMove(event){
@@ -571,6 +560,7 @@ function onMouseUp(event){
     canvas.onmouseout(event, event.screenX, event.screenY);
     time = 0;
     mouse = 0;
+    sick = 0;
 }
 
 
