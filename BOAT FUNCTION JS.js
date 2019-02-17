@@ -4,6 +4,7 @@ const HEIGHT = 5;
 const WIDTH = 2;
 
 
+
 function makeBoat(r)
 {
 	var boat = {
@@ -16,15 +17,27 @@ function makeBoat(r)
 	return boat;
 }
 
+var sinkCoors;
+
+
 var Boat = makeBoat(50);
 //var Boat = {velocity :[0,0], acceleration :[0,0], coors: [0,0]};
+let beenClicked = false;
 
 function onMouseDown(event){
-
+	if (beenClicked)
+		return;
+	else
+		beenClicked = true;
+	isdown = true;
 	console.log(event.screenX);
 	console.log(event.screenY);
 
-	sinkcoords(event.screenX, event.screenY);
+	sinkCoors = {
+		x: event.clientX, 
+		y: event.clientY}
+
+	addElement(event.clientX, event.clientY, "sink");
 
 }
 
@@ -55,16 +68,24 @@ function getRandom(a,b){
 var points = makeRandomArray();
 console.log(points);
 
-function addElement (x,y) { 
+function addElement (x,y, key) { 
   // create a new div element 
+  var content;
+
+  if (key == "mine") {
+  	content = document.createTextNode("*"); 
+  }
+  else if (key=="sink"){
+  	content = document.createTextNode("SINK");
+  }
+
   var newDiv = document.createElement("div"); 
   newDiv.style.position="absolute"; 
   newDiv.style.left = x + "px";
   newDiv.style.top = y + "px";
   // and give it some content 
-  var newContent = document.createTextNode("*"); 
   // add the text node to the newly created div
-  newDiv.appendChild(newContent);  
+  newDiv.appendChild(content);  
 
   // add the newly created element and its content into the DOM 
   var currentDiv = document.getElementById("div1"); 
@@ -75,17 +96,12 @@ function addElement (x,y) {
 for (let i =0; i<points.length; i++)
 {
 	point = points[i];
-	addElement(point.x, point.y);
+	addElement(point.x, point.y, "mine");
 
 }
-
-function sinkcoords(x,y){
-	var sinkcoords = new point (x, y);
-	return sinkcoords;
-}
-var sinkCoors = [5, 5];
 
 //rahims gonna insert physics shit here
+
 	const k = 3;
 	const delt = .1;
 
