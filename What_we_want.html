@@ -1,4 +1,3 @@
-
 <html>
 <title>Caustic</title>
 <head>
@@ -98,11 +97,9 @@ Mouse Speed<input type="range" id="mouse speed" min=-100 max=100 step=1 value=20
 	{
 	    vec3 light = vec3(0.5*R,1e5);
 	    vec3 me    = vec3(U,0);
-
 	    vec3 c = vec3(0);
 	    for (float mu = .3; mu <= 1.7; mu+=.35) 
 	        c += s(U,me,light,mu);
-
 	   	Q = vec4(0.045*c,1);
 	}
 	void main () {mainImage(gl_FragColor,gl_FragCoord.xy);}
@@ -181,17 +178,13 @@ Mouse Speed<input type="range" id="mouse speed" min=-100 max=100 step=1 value=20
 	   C.w  = 0.25*((n.x-s.x+w.y-e.y)-(n.w+e.w+s.w+w.w));
 	   
 	   // boundary conditions
-	   C.xy = mix(C.xy,0.5*vec2(
-	   	0.25*sin(I/20.)+0.5*sin(-I/30.)+sin(I/45.),
-	   	0.25*cos(I/20.)+0.5*cos(-I/30.)+cos(I/45.))
-	   	,exp(-length(U-0.2*R)));
+	   
 	   if (U.x < 2. || U.y < 2. || R.x - U.x < 2. || R.y - U.y < 2.) C *= 0.;
 	   if (I < 1.) C = vec4(0);
 	   vec2 p = U, a = M.xy, b= M.zw;
 	   float t = clamp(dot(p-a,b-a)/dot(b-a,b-a),0.,1.);
 	   float l = length(p-a-(b-a)*t);
    	   if (M.z > 0.) C = mix(C,vec4(min(vec2(1),(M.xy-M.zw)/1000.*MS),0,0),exp(-.5*(t-0.5)*(t-0.5))*exp(-.5*l));
-
 	}
 	void main () {mainImage(gl_FragColor,gl_FragCoord.xy);}
 </script>
@@ -352,7 +345,7 @@ function main () {
 			fbo[i] = new Framebuffer (gl, i, gl.FLOAT, canvas.width,canvas.height);
 		setUni (gl, program, "R", [canvas.width,canvas.height]);
 		setUni (gl, display, "R", [canvas.width,canvas.height]);
-		setUni (gl, color, "R", [canvas.width,canvas.height]);
+		//setUni (gl, color, "R", [canvas.width,canvas.height]);
 		setUni (gl, slope, "R", [canvas.width,canvas.height]);
 		setUni (gl, caustic, "R", [canvas.width,canvas.height]);
 	}
@@ -378,7 +371,6 @@ function main () {
 		setUni (gl, slope, "F", fbo[I%2]);
 		draw (gl, slope, fbo[5]);
 		draw (gl, caustic, fbo[6]);
-
 		setUni (gl, display, "I", I);
 		setUni (gl, display, "F", fbo[I%2]);
 		setUni (gl, display, "Q", fbo[2+I%2]);
@@ -388,12 +380,12 @@ function main () {
 	})();
 	canvas.onmousedown = function (e) {
 		var rect = canvas.getBoundingClientRect();
-	    mouse =  [e.clientX - rect.left, canvas.height - e.clientY + rect.top,0,0];
+	    mouse =  [e.clientX - rect.left, canvas.height - e.clientY + rect.top,mouse[0],mouse[1]];
 	}
 	canvas.onmousemove = function (e) {
 		var rect = canvas.getBoundingClientRect();
-	    if (mouse[0]>0)
-	    mouse = [e.clientX - rect.left, canvas.height - e.clientY + rect.top,mouse[0],mouse[1]];
+	    if(mouse[0]>0)
+	    mouse = [Math.sin(e.clientX) + mouse[0], mouse[1] + Math.sin(e.clientY),mouse[0],mouse[1]];
 	}
 	canvas.onmouseout = canvas.onmouseup = function (e) {
 		mouse = [0,0,0,0];
@@ -418,7 +410,6 @@ window.onload = main;
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'UA-78477080-1');
 </script>
 </html>
