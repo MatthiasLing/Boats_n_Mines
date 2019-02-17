@@ -523,11 +523,12 @@ function onMouseDown(event){
     console.log(event.screenY);
     canvas.onmousedown(event, event.screenX, event.screenY);
 
-
+    console.log("CLICKED IT!!!");
     ++ mouse;
-
-    var forcex = (10/((x - event.screenX)*(x - event.screenX)))*(event.screenX - x)/Math.abs((event.screenX - x));
-    var forcey = 10/((y - event.screenY)*(y - event.screenY));
+    var sign_x = (x > event.screenX) ? -1 : 1; 
+    var sign_y = (y > event.screenY) ? 1 : -1;
+    var forcex = (10/((x - event.screenX)*(x - event.screenX))) * sign_x;
+    var forcey = 10/((y - event.screenY)*(y - event.screenY)) * sign_y;
 
 
     tempX = event.screenX;
@@ -763,4 +764,3 @@ setInterval(draws, 10);
 
 </body>
 <html>
-
