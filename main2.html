@@ -514,8 +514,8 @@ function onMouseDown(event){
     console.log(event.screenY);
     canvas.onmousedown(event, event.screenX, event.screenY);
 
-    var forcex = 5/((x - event.screenX)*(x - event.screenX));
-    var forcey = 5/((y - event.screenY)*(y - event.screenY));
+    var forcex = Math.abs(10/((x - event.screenX)*(x - event.screenX)));
+    var forcey = Math.abs(10/((y - event.screenY)*(y - event.screenY)));
 
     var ax = forcex;
     var ay = forcey;
@@ -523,8 +523,8 @@ function onMouseDown(event){
     console.log(x);
     console.log(y);
 
-    dx = (-1 * (event.screenX - x)/abs((event.screenX - x)));
-    dy = (-1 * (event.screenY - y)/abs((event.screenY - y)));
+    dx = (-1 * (event.screenX - x)/Math.abs((event.screenX - x)));
+    dy = (-1 * (event.screenY - y)/Math.abs((event.screenY - y)));
 
     dx += ax;
     dy += ay;
