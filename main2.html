@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
 <body>
 
@@ -525,10 +525,10 @@ function onMouseDown(event){
 
     console.log("CLICKED IT!!!");
     ++ mouse;
-    var sign_x = (x > event.screenX) ? -1 : 1; 
+    var sign_x = (x > event.screenX) ? 1 : -1; 
     var sign_y = (y > event.screenY) ? 1 : -1;
     var forcex = (10/((x - event.screenX)*(x - event.screenX))) * sign_x;
-    var forcey = 10/((y - event.screenY)*(y - event.screenY)) * sign_y;
+    var forcey = (10/((y - event.screenY)*(y - event.screenY))) * sign_y;
 
 
     tempX = event.screenX;
@@ -547,10 +547,11 @@ function onMouseDown(event){
   
    
 
-    tempFX = dx;
-    tempFY = dy;
+    tempFX = forcex;
+    tempFY = forcey;
 
-    sincCoors = sinkcoords(event.screenX, event.screenY);
+
+    sincCoors = sinkcoords(tempX, tempY);
 }
 
 function onMouseMove(event){
@@ -758,6 +759,7 @@ function draws() {
 }
 setInterval(draws, 10);
 </script>
+
 
 
 
